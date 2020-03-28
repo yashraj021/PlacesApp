@@ -9,10 +9,20 @@ import './PlaceItem.css';
 const PlaceItem = props => {
 
     const[showMap, setShowMap] = useState(false);
+    const[showConfirmModal, setshowConfirmModal] = useState(false);
 
     const openMapHandler = () => setShowMap(true);
 
     const closeMapHandler = () => setShowMap(false);
+
+    const showDeleteWarningHandler = () => setshowConfirmModal(true);
+
+    const cancelDeleteHandler = () => setshowConfirmModal(false);
+
+    const confirmDeleteHandler = () => {
+        setshowConfirmModal(false);
+        console.log('DELETING...');
+    }
 
     return (
         <Fragment>
@@ -34,6 +44,27 @@ const PlaceItem = props => {
                         zoom={16}
                     />
                 </div>
+            </Modal>
+            <Modal
+                show={showConfirmModal}
+                onCancel={cancelDeleteHandler}
+
+                header="Are you sure?"
+                footerClass="place-item__modal-actions"
+                footer={
+                    <Fragment>
+                        <Button inverse onClick={cancelDeleteHandler}>
+                            CANCEL
+                        </Button>
+                        <Button danger onClick={confirmDeleteHandler}>
+                            DELETE
+                        </Button>
+                    </Fragment>
+                }
+            >
+                <p>
+                    Do you want to proceed and delete this place? Please note that it can't be undone thereafter.
+                </p>
             </Modal>
             <li className="place-item">
                 <Card className="place-item__content">
@@ -61,7 +92,7 @@ const PlaceItem = props => {
                         <Button to={`/places/${props.id}`}>
                             EDIT
                         </Button>
-                        <Button danger>
+                        <Button danger onClick={showDeleteWarningHandler}>
                             DELETE
                         </Button>
                     </div>
