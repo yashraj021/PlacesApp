@@ -24,11 +24,11 @@ const UserPlaces = () => {
     fetchRequest();
   }, [sendRequest, userId])
 
-  try {
-
-  } catch (err) {
-
-  }
+  const placeDeleteHandler = (deletedPlaceId) => {
+    setLoadedPlaces(prevPlaces => 
+      prevPlaces.filter(place => place.id !== deletedPlaceId )
+    )
+  };
 
   return(
     <Fragment>
@@ -38,7 +38,7 @@ const UserPlaces = () => {
           <LoadingSpinner asOverlay />
         </div>
       )}
-      {!isLoading && loadedPlaces && <PlaceList items={loadedPlaces}/>}
+      {!isLoading && loadedPlaces && <PlaceList items={loadedPlaces} onDeletePlace={placeDeleteHandler}/>}
     </Fragment>
   )
 }
