@@ -31,6 +31,10 @@ const PlaceItem = props => {
             await sendRequest(
                 `http://localhost:5000/api/places/${props.id}`,
                 'DELETE',
+                null,
+                {
+                    Authorization: "Bearer " + auth.token
+                }
 
             );
             props.onDelete(props.id);
@@ -85,7 +89,7 @@ const PlaceItem = props => {
                     {isLoading && <LoadingSpinner asOverlay />}
                     <div className="place-item__image">
                         <img 
-                            src={props.image}
+                            src={`http://localhost:5000/${props.image}`}
                             alt={props.title}
                         />
                     </div>
@@ -107,7 +111,7 @@ const PlaceItem = props => {
                         { auth.userId === props.creatorId && <Button to={`/places/${props.id}`}>
                             EDIT
                         </Button>}
-                        { auth.userId === props.creatorI && <Button danger onClick={showDeleteWarningHandler}>
+                        { auth.userId === props.creatorId && <Button danger onClick={showDeleteWarningHandler}>
                             DELETE
                         </Button>}
                     </div>

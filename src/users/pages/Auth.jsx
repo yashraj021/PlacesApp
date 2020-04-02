@@ -49,7 +49,7 @@ const Auth = () => {
                     }
                 );
 
-                auth.login(responseData.user.id);
+                auth.login(responseData.userId, responseData.token);
             } catch(err) {
 
             }
@@ -64,9 +64,9 @@ const Auth = () => {
                 formData.append('image', formState.inputs.image.value)
                 const responseData = await sendRequest('http://localhost:5000/api/user/signup',
                     'POST',
-                    formData
+                    formData, 
                 ); 
-                auth.login(responseData.user.id);
+                auth.login(responseData.userId, responseData.token);
             } catch(err) {
                 
             }
@@ -80,7 +80,7 @@ const Auth = () => {
                 ...formState.inputs,
                 name: undefined,
                 image: undefined
-            }, formState.input.email.isValid && formState.input.password.isValid )
+            }, formState.inputs.email.isValid && formState.inputs.password.isValid )
         } else {
             setFormData({
                 ...formState.inputs,
@@ -121,7 +121,11 @@ const Auth = () => {
                         />
                     )
                 }
-                {!isLoginMode && <ImageUpload center id="image" onInput={inputHandler}/>}
+                {!isLoginMode && <ImageUpload 
+                    center id="image" 
+                    onInput={inputHandler}
+                    error="Please provide an Image."
+                />}
                     <Input
                         element="input"
                         id="email"
